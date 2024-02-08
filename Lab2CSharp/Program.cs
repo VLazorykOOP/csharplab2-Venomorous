@@ -31,6 +31,27 @@ public class Lab1
         return matrix;
     }
 
+    static int[][] GenerateRandomSteppedArray(int n, int minValue, int maxValue)
+    {
+        int[][] array = new int[n][];
+        Random random = new Random();
+
+        for (int i = 0; i < n; i++)
+        {
+            array[i] = new int[i + 1];
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < array[i].Length; j++)
+            {
+                array[i][j] = random.Next(minValue, maxValue + 1);
+            }
+        }
+
+        return array;
+    }
+
     static int CalculateSumWithinIntervalArray(int[] array, int min, int max)
     {
         int sum = 0;
@@ -161,6 +182,13 @@ public class Lab1
         int n = Convert.ToInt32(Console.ReadLine());
 
         int[] numbers = GenerateRandomArray(n, -100, 100);
+        //int[] numbers = new int[n];
+
+        //for (int i = 0; i < n; i++)
+        //{
+        //    Console.WriteLine($"Enter the {i + 1} element: ");
+        //    numbers[i] = Convert.ToInt32(Console.ReadLine());
+        //}
 
         Console.WriteLine("Generated array:");
         PrintArray(numbers);
@@ -227,38 +255,34 @@ public class Lab1
         PrintMatrix(matrix);
     }
 
-    static int[] FindLastOddElements(int[,] array)
+    static int[] FindLastOddElements(int[][] array)
     {
-        int rows = array.GetLength(0);
+        int rows = array.Length;
         int columns = FindMaxColumns(array);
 
         int[] lastOddElements = new int[columns];
 
         for (int j = 0; j < columns; j++)
         {
-            int lastOdd = -1;
-
             for (int i = 0; i < rows; i++)
             {
-                if (j < array.GetLength(1) && array[i, j] % 2 != 0)
+                if (j < array[i].Length && array[i][j] % 2 != 0)
                 {
-                    lastOdd = array[i, j];
+                    lastOddElements[j] = array[i][j];
                 }
             }
-
-            lastOddElements[j] = lastOdd;
         }
 
         return lastOddElements;
     }
 
-    static int FindMaxColumns(int[,] array)
+    static int FindMaxColumns(int[][] array)
     {
         int maxColumns = 0;
 
-        for (int i = 0; i < array.GetLength(0); i++)
+        foreach (var row in array)
         {
-            maxColumns = Math.Max(maxColumns, array.GetLength(1));
+            maxColumns = Math.Max(maxColumns, row.Length);
         }
 
         return maxColumns;
@@ -269,10 +293,27 @@ public class Lab1
         Console.WriteLine("Enter a number of rows: ");
         int n = Convert.ToInt32(Console.ReadLine());
 
-        int[] numbers = GenerateRandomArray(n, -100, 100);
+        int[][] steppedArray = GenerateRandomSteppedArray(n, -100, 100);
+        Console.WriteLine("-----------------------------------------------------------");
+        PrintSteppedArray(steppedArray);
+        Console.WriteLine("-----------------------------------------------------------");
 
-        Console.WriteLine("Generated array:");
-        PrintArray(numbers);
+        int[] lastOddElements = FindLastOddElements(steppedArray);
+
+        Console.WriteLine("\nLast Odd Elements in Each Column:");
+        PrintArray(lastOddElements);
+    }
+
+    static void PrintSteppedArray(int[][] array)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            for (int j = 0; j < array[i].Length; j++)
+            {
+                Console.Write(array[i][j] + " ");
+            }
+            Console.WriteLine();
+        }
     }
 
     public static void Main(string[] args)
