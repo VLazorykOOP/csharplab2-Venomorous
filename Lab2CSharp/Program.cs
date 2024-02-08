@@ -155,11 +155,125 @@ public class Lab1
         }
     }
 
-    static void Task2() { }
+    static void Task2()
+    {
+        Console.WriteLine("Enter size of an array: ");
+        int n = Convert.ToInt32(Console.ReadLine());
 
-    static void Task3() { }
+        int[] numbers = GenerateRandomArray(n, -100, 100);
 
-    static void Task4() { }
+        Console.WriteLine("Generated array:");
+        PrintArray(numbers);
+
+        int indexOfMin = Array.IndexOf(numbers, numbers.Min());
+        int indexOfMax = Array.IndexOf(numbers, numbers.Max());
+
+        Console.WriteLine(
+            $"Index of the min number: {indexOfMin}\n" + $"Index of the max number: {indexOfMax}"
+        );
+
+        if (indexOfMax < indexOfMin)
+        {
+            Console.WriteLine("Min number is after the max number");
+            return;
+        }
+
+        int sum = CalculateSumWithinIntervalArray(numbers, numbers.Min(), numbers.Max());
+        Console.WriteLine($"Sum of numbers within the interval: {sum}");
+    }
+
+    static void SwapLinesIfEven(int[,] matrix)
+    {
+        int rows = matrix.GetLength(0);
+
+        if (rows % 2 == 0)
+        {
+            for (int i = 0; i < rows; i += 2)
+            {
+                if (i + 1 < rows)
+                {
+                    SwapRows(matrix, i, i + 1);
+                }
+            }
+        }
+    }
+
+    static void SwapRows(int[,] matrix, int row1, int row2)
+    {
+        int columns = matrix.GetLength(1);
+
+        for (int j = 0; j < columns; j++)
+        {
+            int temp = matrix[row1, j];
+            matrix[row1, j] = matrix[row2, j];
+            matrix[row2, j] = temp;
+        }
+    }
+
+    static void Task3()
+    {
+        Console.WriteLine("Enter the number of rows for the matrix: ");
+        int rows = Convert.ToInt32(Console.ReadLine());
+        int columns = rows;
+
+        int[,] matrix = GenerateRandomMatrix(rows, columns, -100, 100);
+
+        Console.WriteLine("Generated matrix:");
+        PrintMatrix(matrix);
+
+        SwapLinesIfEven(matrix);
+
+        Console.WriteLine("Matrix after swapping lines:");
+        PrintMatrix(matrix);
+    }
+
+    static int[] FindLastOddElements(int[,] array)
+    {
+        int rows = array.GetLength(0);
+        int columns = FindMaxColumns(array);
+
+        int[] lastOddElements = new int[columns];
+
+        for (int j = 0; j < columns; j++)
+        {
+            int lastOdd = -1;
+
+            for (int i = 0; i < rows; i++)
+            {
+                if (j < array.GetLength(1) && array[i, j] % 2 != 0)
+                {
+                    lastOdd = array[i, j];
+                }
+            }
+
+            lastOddElements[j] = lastOdd;
+        }
+
+        return lastOddElements;
+    }
+
+    static int FindMaxColumns(int[,] array)
+    {
+        int maxColumns = 0;
+
+        for (int i = 0; i < array.GetLength(0); i++)
+        {
+            maxColumns = Math.Max(maxColumns, array.GetLength(1));
+        }
+
+        return maxColumns;
+    }
+
+    static void Task4()
+    {
+        Console.WriteLine("Enter a number of rows: ");
+        int n = Convert.ToInt32(Console.ReadLine());
+
+        int[] numbers = GenerateRandomArray(n, -100, 100);
+
+        Console.WriteLine("Generated array:");
+        PrintArray(numbers);
+    }
 
     public static void Main(string[] args)
     {
