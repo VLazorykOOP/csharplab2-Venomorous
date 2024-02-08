@@ -15,6 +15,20 @@ public class Lab1
         return array;
     }
 
+    static double[] GenerateRandomArray(int length, double minValue, double maxValue)
+    {
+        double[] array = new double[length];
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++)
+        {
+            double randomValue = minValue + (maxValue - minValue) * random.NextDouble();
+            array[i] = Math.Round(randomValue, 2);
+        }
+
+        return array;
+    }
+
     static int[,] GenerateRandomMatrix(int rows, int columns, int minValue, int maxValue)
     {
         int[,] matrix = new int[rows, columns];
@@ -67,6 +81,21 @@ public class Lab1
         return sum;
     }
 
+    static double CalculateSumWithinIntervalArray(double[] array, double min, double max)
+    {
+        double sum = 0;
+
+        foreach (double number in array)
+        {
+            if (number >= min && number <= max)
+            {
+                sum += number;
+            }
+        }
+
+        return sum;
+    }
+
     static int CalculateSumWithinIntervalMatrix(int[,] matrix, int min, int max)
     {
         int sum = 0;
@@ -90,6 +119,15 @@ public class Lab1
     static void PrintArray(int[] array)
     {
         foreach (int el in array)
+        {
+            Console.Write(el + " ");
+        }
+        Console.WriteLine();
+    }
+
+    static void PrintArray(double[] array)
+    {
+        foreach (double el in array)
         {
             Console.Write(el + " ");
         }
@@ -181,17 +219,18 @@ public class Lab1
         Console.WriteLine("Enter size of an array: ");
         int n = Convert.ToInt32(Console.ReadLine());
 
-        int[] numbers = GenerateRandomArray(n, -100, 100);
-        //int[] numbers = new int[n];
+        double[] numbers = GenerateRandomArray(n, -100.0, 100.0);
+        //double[] numbers = new double[n];
 
         //for (int i = 0; i < n; i++)
         //{
         //    Console.WriteLine($"Enter the {i + 1} element: ");
-        //    numbers[i] = Convert.ToInt32(Console.ReadLine());
+        //    numbers[i] = Convert.ToDouble32(Console.ReadLine());
         //}
 
         Console.WriteLine("Generated array:");
         PrintArray(numbers);
+        Console.WriteLine("-----------------------------------------------------------");
 
         int indexOfMin = Array.IndexOf(numbers, numbers.Min());
         int indexOfMax = Array.IndexOf(numbers, numbers.Max());
@@ -206,7 +245,8 @@ public class Lab1
             return;
         }
 
-        int sum = CalculateSumWithinIntervalArray(numbers, numbers.Min(), numbers.Max());
+        double sum = CalculateSumWithinIntervalArray(numbers, numbers.Min(), numbers.Max());
+        Math.Round(sum, 2);
         Console.WriteLine($"Sum of numbers within the interval: {sum}");
     }
 
