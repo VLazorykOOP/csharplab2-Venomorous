@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Lab1
+public class Lab2
 {
     static int[] GenerateRandomArray(int length, int minValue, int maxValue)
     {
